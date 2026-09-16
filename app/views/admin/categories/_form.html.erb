@@ -1,0 +1,29 @@
+<%= form_with model: [:admin, @category] do |form| %>
+
+  <% if @category.errors.any? %>
+    <div>
+      <h2>No se pudo guardar la categoría:</h2>
+
+      <ul>
+        <% @category.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, "Nombre" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Descripción" %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+
+<% end %>

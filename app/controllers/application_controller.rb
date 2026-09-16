@@ -1,7 +1,12 @@
 class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
+  private
 
-  # Changes to the importmap will invalidate the etag for HTML responses
-  stale_when_importmap_changes
+  def require_admin
+    user = User.find_by(id: session[:user_id])
+
+    return if user&.admin?
+
+    redirect_to admin_login_path,
+                alert: "Debés iniciar sesión como administrador."
+  end
 end

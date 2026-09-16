@@ -1,0 +1,62 @@
+<h1>Pedido #<%= @order.id %></h1>
+
+<p>
+  <strong>Cliente:</strong>
+  <%= @order.user.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @order.user.email %>
+</p>
+
+<p>
+  <strong>Estado:</strong>
+  <%= @order.status %>
+</p>
+
+<p>
+  <strong>Total:</strong>
+  $<%= @order.total %>
+</p>
+
+<hr>
+
+<h2>Productos</h2>
+
+<% if @order.order_items.any? %>
+
+  <% @order.order_items.each do |item| %>
+
+    <div>
+      <p>
+        <strong>Producto:</strong>
+        <%= item.product.name %>
+      </p>
+
+      <p>
+        <strong>Cantidad:</strong>
+        <%= item.quantity %>
+      </p>
+
+      <p>
+        <strong>Precio unitario:</strong>
+        $<%= item.unit_price %>
+      </p>
+    </div>
+
+    <hr>
+
+  <% end %>
+
+<% else %>
+
+  <p>Este pedido no tiene productos.</p>
+
+<% end %>
+
+<br>
+
+<%= link_to "Editar estado", edit_admin_order_path(@order) %>
+|
+<%= link_to "Volver a pedidos", admin_orders_path %>

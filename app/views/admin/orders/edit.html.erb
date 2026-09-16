@@ -1,0 +1,39 @@
+<h1>Editar pedido #<%= @order.id %></h1>
+
+<%= form_with model: [:admin, @order] do |form| %>
+
+  <% if @order.errors.any? %>
+    <div>
+      <h2>No se pudo actualizar el pedido:</h2>
+
+      <ul>
+        <% @order.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :status, "Estado" %>
+
+    <%= form.select :status,
+        [
+          ["Pendiente", "pending"],
+          ["Pagado", "paid"],
+          ["En preparación", "preparing"],
+          ["Enviado", "shipped"],
+          ["Completado", "completed"],
+          ["Cancelado", "cancelled"]
+        ] %>
+  </div>
+
+  <div>
+    <%= form.submit "Actualizar pedido" %>
+  </div>
+
+<% end %>
+
+<br>
+
+<%= link_to "Volver al pedido", admin_order_path(@order) %>

@@ -1,0 +1,57 @@
+<h1>Productos</h1>
+
+<p>
+  <%= link_to "Productos", admin_products_path %> |
+  <%= link_to "Categorías", admin_categories_path %> |
+  <%= link_to "Pedidos", admin_orders_path %>
+</p>
+
+<hr>
+
+<%= link_to "Nuevo producto", new_admin_product_path %>
+
+<hr>
+
+<% if @products.any? %>
+
+  <% @products.each do |product| %>
+
+    <div>
+      <h2><%= product.name %></h2>
+
+      <p>
+        <strong>Descripción:</strong>
+        <%= product.description %>
+      </p>
+
+      <p>
+        <strong>Precio:</strong>
+        $<%= product.price %>
+      </p>
+
+      <p>
+        <strong>Stock:</strong>
+        <%= product.stock %>
+      </p>
+
+      <%= link_to "Ver", admin_product_path(product) %>
+      |
+      <%= link_to "Editar", edit_admin_product_path(product) %>
+      |
+      <%= link_to "Eliminar",
+          admin_product_path(product),
+          data: {
+            turbo_method: :delete,
+            turbo_confirm: "¿Seguro que querés eliminar este producto?"
+          } %>
+    </div>
+
+    <hr>
+
+  <% end %>
+
+<% else %>
+
+  <p>No hay productos cargados.</p>
+
+<% end %>

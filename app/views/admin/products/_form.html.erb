@@ -1,0 +1,47 @@
+<%= form_with model: [:admin, @product] do |form| %>
+
+  <% if @product.errors.any? %>
+    <div>
+      <h2>
+        No se pudo guardar el producto:
+      </h2>
+
+      <ul>
+        <% @product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, "Nombre" %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :description, "Descripción" %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :price, "Precio" %>
+    <%= form.number_field :price, step: 0.01 %>
+  </div>
+
+  <div>
+    <%= form.label :stock, "Stock" %>
+    <%= form.number_field :stock %>
+  </div>
+
+  <div>
+    <%= form.label :category_id, "Categoría" %>
+    <%= form.collection_select :category_id, Category.all, :id, :name,
+        { prompt: "Seleccionar categoría" } %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+
+<% end %>

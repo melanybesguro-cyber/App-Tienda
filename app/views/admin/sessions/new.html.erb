@@ -1,0 +1,23 @@
+<h1>Iniciar sesión</h1>
+
+<%= form_with url: admin_login_path do |form| %>
+
+  <div>
+    <%= form.label :email, "Email" %>
+    <%= form.email_field :email %>
+  </div>
+
+  <div>
+    <%= form.label :password, "Contraseña" %>
+    <%= form.password_field :password %>
+  </div>
+
+  <div>
+    <%= form.submit "Iniciar sesión" %>
+  </div>
+
+<% end %>
+
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>

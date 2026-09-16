@@ -1,0 +1,43 @@
+<h1>Pedidos</h1>
+
+<% if @orders.any? %>
+
+  <% @orders.each do |order| %>
+
+    <div>
+      <h2>Pedido #<%= order.id %></h2>
+
+      <p>
+        <strong>Cliente:</strong>
+        <%= order.user.name %>
+      </p>
+
+      <p>
+        <strong>Email:</strong>
+        <%= order.user.email %>
+      </p>
+
+      <p>
+        <strong>Estado:</strong>
+        <%= order.status %>
+      </p>
+
+      <p>
+        <strong>Total:</strong>
+        $<%= order.total %>
+      </p>
+
+      <%= link_to "Ver pedido", admin_order_path(order) %>
+      |
+      <%= link_to "Editar estado", edit_admin_order_path(order) %>
+    </div>
+
+    <hr>
+
+  <% end %>
+
+<% else %>
+
+  <p>No hay pedidos registrados.</p>
+
+<% end %>
