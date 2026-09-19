@@ -1,0 +1,55 @@
+<h1>Comisiones</h1>
+
+<p>
+  <%= link_to "Productos", admin_products_path %> |
+  <%= link_to "Categorías", admin_categories_path %> |
+  <%= link_to "Pedidos", admin_orders_path %> |
+  <%= link_to "Usuarios", admin_users_path %> |
+  <%= link_to "Comisiones", admin_commissions_path %>
+</p>
+
+<hr>
+
+<% if @commissions.any? %>
+
+  <% @commissions.each do |commission| %>
+    <div>
+      <h2>Comisión #<%= commission.id %></h2>
+
+      <p>
+        <strong>Cliente:</strong>
+        <%= commission.user.name %>
+      </p>
+
+      <p>
+        <strong>Email:</strong>
+        <%= commission.user.email %>
+      </p>
+
+      <p>
+        <strong>Estado:</strong>
+        <%= commission.status %>
+      </p>
+
+      <p>
+        <strong>Fecha límite:</strong>
+        <%= commission.deadline %>
+      </p>
+
+      <%= link_to "Ver comisión",
+          admin_commission_path(commission) %>
+
+      |
+
+      <%= link_to "Editar",
+          edit_admin_commission_path(commission) %>
+    </div>
+
+    <hr>
+  <% end %>
+
+<% else %>
+
+  <p>No hay comisiones registradas.</p>
+
+<% end %>

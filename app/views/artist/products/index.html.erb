@@ -1,16 +1,12 @@
-<h1>Productos</h1>
+<h1>Mis productos</h1>
 
 <p>
-  <%= link_to "Productos", admin_products_path %> |
-  <%= link_to "Categorías", admin_categories_path %> |
-  <%= link_to "Pedidos", admin_orders_path %>
-  <%= link_to "Usuarios", admin_users_path %>
-  <%= link_to "Comisiones", admin_commissions_path %>
+  <%= link_to "Mis productos", artist_products_path %>
 </p>
 
 <hr>
 
-<%= link_to "Nuevo producto", new_admin_product_path %>
+<%= link_to "Nuevo producto", new_artist_product_path %>
 
 <hr>
 
@@ -37,16 +33,22 @@
       </p>
 
       <p>
-        <strong>Artista:</strong>
-        <%= product.artist&.name || "Sin artista asignado" %>
+        <strong>Categoría:</strong>
+        <%= product.category.name %>
       </p>
 
-      <%= link_to "Ver", admin_product_path(product) %>
+      <%= link_to "Ver",
+          artist_product_path(product) %>
+
       |
-      <%= link_to "Editar", edit_admin_product_path(product) %>
+
+      <%= link_to "Editar",
+          edit_artist_product_path(product) %>
+
       |
+
       <%= link_to "Eliminar",
-          admin_product_path(product),
+          artist_product_path(product),
           data: {
             turbo_method: :delete,
             turbo_confirm: "¿Seguro que querés eliminar este producto?"
@@ -59,6 +61,6 @@
 
 <% else %>
 
-  <p>No hay productos cargados.</p>
+  <p>Todavía no tenés productos publicados.</p>
 
 <% end %>

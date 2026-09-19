@@ -10,7 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_16_020554) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_19_001000) do
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.string "content_type"
+    t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -51,6 +72,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_020554) do
   end
 
   create_table "products", force: :cascade do |t|
+    t.integer "artist_id"
     t.integer "category_id", null: false
     t.datetime "created_at", null: false
     t.text "description"
@@ -58,22 +80,27 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_16_020554) do
     t.decimal "price"
     t.integer "stock"
     t.datetime "updated_at", null: false
+    t.index ["artist_id"], name: "index_products_on_artist_id"
     t.index ["category_id"], name: "index_products_on_category_id"
   end
 
   create_table "users", force: :cascade do |t|
+    t.string "api_token"
     t.datetime "created_at", null: false
     t.string "email"
     t.string "name"
     t.string "password_digest"
     t.string "role"
     t.datetime "updated_at", null: false
+    t.index ["api_token"], name: "index_users_on_api_token", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "commissions", "orders"
   add_foreign_key "commissions", "users"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "users"
   add_foreign_key "products", "categories"
+  add_foreign_key "products", "users", column: "artist_id"
 end

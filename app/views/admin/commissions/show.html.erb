@@ -1,0 +1,46 @@
+<h1>Comisión #<%= @commission.id %></h1>
+
+<p>
+  <strong>Cliente:</strong>
+  <%= @commission.user.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @commission.user.email %>
+</p>
+
+<p>
+  <strong>Descripción del trabajo:</strong>
+</p>
+
+<p>
+  <%= @commission.description %>
+</p>
+
+<p>
+  <strong>Estado:</strong>
+  <%= @commission.status %>
+</p>
+
+<p>
+  <strong>Fecha límite:</strong>
+  <%= @commission.deadline %>
+</p>
+
+<p>
+  <strong>Pedido asociado:</strong>
+
+  <%= link_to "Pedido ##{@commission.order.id}",
+      admin_order_path(@commission.order) %>
+</p>
+
+<hr>
+
+<%= link_to "Editar comisión",
+    edit_admin_commission_path(@commission) %>
+
+|
+
+<%= link_to "Volver a comisiones",
+    admin_commissions_path %>

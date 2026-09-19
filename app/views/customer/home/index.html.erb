@@ -1,0 +1,19 @@
+<h1>Bienvenido, <%= User.find_by(id: session[:user_id]).name %></h1>
+
+<p>Productos disponibles</p>
+
+<% if @products.any? %>
+  <% @products.each do |product| %>
+    <div>
+      <h2><%= product.name %></h2>
+      <p><%= product.description %></p>
+      <p>Precio: $<%= product.price %></p>
+      <p>Artista: <%= product.artist&.name || "Sin artista asignado" %></p>
+    </div>
+    <hr>
+  <% end %>
+<% else %>
+  <p>Todavía no hay productos publicados.</p>
+<% end %>
+
+<%= button_to "Cerrar sesión", customer_logout_path, method: :delete %>

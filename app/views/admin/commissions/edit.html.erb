@@ -1,0 +1,48 @@
+<h1>Editar comisión #<%= @commission.id %></h1>
+
+<%= form_with model: [:admin, @commission] do |form| %>
+
+  <% if @commission.errors.any? %>
+    <div>
+      <h2>No se pudo actualizar la comisión:</h2>
+
+      <ul>
+        <% @commission.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :status, "Estado" %>
+
+    <%= form.select :status,
+        [
+          ["Pendiente", "pending"],
+          ["En progreso", "in_progress"],
+          ["Esperando información", "waiting"],
+          ["Finalizada", "completed"],
+          ["Cancelada", "cancelled"]
+        ] %>
+  </div>
+
+  <br>
+
+  <div>
+    <%= form.label :deadline, "Fecha límite" %>
+    <%= form.date_field :deadline %>
+  </div>
+
+  <br>
+
+  <div>
+    <%= form.submit "Actualizar comisión" %>
+  </div>
+
+<% end %>
+
+<br>
+
+<%= link_to "Volver a la comisión",
+    admin_commission_path(@commission) %>

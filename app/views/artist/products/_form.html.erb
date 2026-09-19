@@ -1,10 +1,8 @@
-<%= form_with model: [:admin, @product] do |form| %>
+<%= form_with model: [:artist, @product] do |form| %>
 
   <% if @product.errors.any? %>
     <div>
-      <h2>
-        No se pudo guardar el producto:
-      </h2>
+      <h2>No se pudo guardar el producto:</h2>
 
       <ul>
         <% @product.errors.full_messages.each do |message| %>
@@ -19,32 +17,40 @@
     <%= form.text_field :name %>
   </div>
 
+  <br>
+
   <div>
     <%= form.label :description, "Descripción" %>
     <%= form.text_area :description %>
   </div>
+
+  <br>
 
   <div>
     <%= form.label :price, "Precio" %>
     <%= form.number_field :price, step: 0.01 %>
   </div>
 
+  <br>
+
   <div>
     <%= form.label :stock, "Stock" %>
     <%= form.number_field :stock %>
   </div>
 
+  <br>
+
   <div>
     <%= form.label :category_id, "Categoría" %>
-    <%= form.collection_select :category_id, Category.all, :id, :name,
+
+    <%= form.collection_select :category_id,
+        Category.all,
+        :id,
+        :name,
         { prompt: "Seleccionar categoría" } %>
   </div>
 
-  <div>
-    <%= form.label :artist_id, "Artista" %>
-    <%= form.collection_select :artist_id, User.where(role: "artist"), :id, :name,
-        { prompt: "Seleccionar artista" } %>
-  </div>
+  <br>
 
   <div>
     <%= form.submit %>

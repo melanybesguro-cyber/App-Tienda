@@ -1,0 +1,38 @@
+<h1>Usuarios</h1>
+
+<p>
+  <%= link_to "Productos", admin_products_path %> |
+  <%= link_to "Categorías", admin_categories_path %> |
+  <%= link_to "Pedidos", admin_orders_path %> |
+  <%= link_to "Usuarios", admin_users_path %>
+</p>
+
+<hr>
+
+<% if @users.any? %>
+
+  <% @users.each do |user| %>
+    <div>
+      <h2><%= user.name %></h2>
+
+      <p>
+        <strong>Email:</strong>
+        <%= user.email %>
+      </p>
+
+      <p>
+        <strong>Rol:</strong>
+        <%= user.role %>
+      </p>
+
+      <%= link_to "Ver usuario", admin_user_path(user) %>
+    </div>
+
+    <hr>
+  <% end %>
+
+<% else %>
+
+  <p>No hay usuarios registrados.</p>
+
+<% end %>

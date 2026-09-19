@@ -1,0 +1,31 @@
+<h1>Iniciar sesión como cliente</h1>
+
+<%= form_with url: customer_login_path do |form| %>
+
+  <div>
+    <%= form.label :email, "Email" %>
+    <%= form.email_field :email %>
+  </div>
+
+  <br>
+
+  <div>
+    <%= form.label :password, "Contraseña" %>
+    <%= form.password_field :password %>
+  </div>
+
+  <br>
+
+  <div>
+    <%= form.submit "Iniciar sesión" %>
+  </div>
+
+<% end %>
+
+<% if flash[:alert] %>
+  <p><%= flash[:alert] %></p>
+<% end %>
+
+<p>
+  <%= link_to "Volver a elegir tipo de cuenta", root_path %>
+</p>

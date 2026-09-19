@@ -15,21 +15,17 @@
   <%= @product.stock %>
 </p>
 
-
 <p>
   <strong>Categoría:</strong>
   <%= @product.category.name %>
 </p>
 
-<p>
-  <strong>Artista:</strong>
-  <%= @product.artist&.name || "Sin artista asignado" %>
-</p>
-
 <hr>
 
-<%= link_to "Editar", edit_admin_product_path(@product) %>
+<%= link_to "Editar",
+    edit_artist_product_path(@product) %>
 
 |
 
-<%= link_to "Volver a productos", admin_products_path %>
+<%= link_to "Volver a mis productos",
+    artist_products_path %>

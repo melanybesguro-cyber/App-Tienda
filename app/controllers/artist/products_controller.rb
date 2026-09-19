@@ -1,23 +1,23 @@
-class Admin::ProductsController < ApplicationController
-  before_action :require_admin
+class Artist::ProductsController < ApplicationController
+  before_action :require_artist
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   def index
-    @products = Product.includes(:artist, :category).order(created_at: :desc)
+    @products = current_user.products
   end
 
   def show
   end
 
   def new
-    @product = Product.new
+    @product = current_user.products.build
   end
 
   def create
-    @product = Product.new(product_params)
+    @product = current_user.products.build(product_params)
 
     if @product.save
-      redirect_to admin_product_path(@product),
+      redirect_to artist_product_path(@product),
                   notice: "Producto creado correctamente."
     else
       render :new, status: :unprocessable_entity
@@ -29,7 +29,7 @@ class Admin::ProductsController < ApplicationController
 
   def update
     if @product.update(product_params)
-      redirect_to admin_product_path(@product),
+      redirect_to artist_product_path(@product),
                   notice: "Producto actualizado correctamente."
     else
       render :edit, status: :unprocessable_entity
@@ -39,14 +39,18 @@ class Admin::ProductsController < ApplicationController
   def destroy
     @product.destroy
 
-    redirect_to admin_products_path,
+    redirect_to artist_products_path,
                 notice: "Producto eliminado correctamente."
   end
 
   private
 
+  def current_user
+    @current_user ||= User.find_by(id: session[:user_id])
+  end
+
   def set_product
-    @product = Product.find(params[:id])
+    @product = current_user.products.find(params[:id])
   end
 
   def product_params
@@ -55,8 +59,7 @@ class Admin::ProductsController < ApplicationController
       :description,
       :price,
       :stock,
-      :category_id,
-      :artist_id
+      :category_id
     )
   end
 end
