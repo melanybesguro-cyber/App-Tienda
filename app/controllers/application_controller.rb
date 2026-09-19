@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
 
     return if user&.artist?
 
-    redirect_to artist_login_path,
+    redirect_to admin_login_path,
                 alert: "Debés iniciar sesión como artista."
   end
 

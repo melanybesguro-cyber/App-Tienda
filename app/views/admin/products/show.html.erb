@@ -15,15 +15,14 @@
   <%= @product.stock %>
 </p>
 
+<p>
+  <strong>Artista:</strong>
+  <%= @product.artist&.name || "Sin artista asignado" %>
+</p>
 
 <p>
   <strong>Categoría:</strong>
   <%= @product.category.name %>
-</p>
-
-<p>
-  <strong>Artista:</strong>
-  <%= @product.artist&.name || "Sin artista asignado" %>
 </p>
 
 <hr>
