@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_secure_password
+  has_secure_token :api_token
 
   has_many :orders, dependent: :destroy
   has_many :commissions, dependent: :destroy

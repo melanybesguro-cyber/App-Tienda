@@ -1,4 +1,6 @@
 class Api::V1::AuthController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def register
     user = User.new(user_params)
     user.role = "customer"
@@ -26,6 +28,7 @@ class Api::V1::AuthController < ApplicationController
     if user&.authenticate(params[:password])
       render json: {
         message: "Inicio de sesión correcto.",
+        token: user.api_token,
         user: {
           id: user.id,
           name: user.name,
