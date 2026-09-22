@@ -1,6 +1,18 @@
 class ApplicationController < ActionController::Base
   private
 
+   def authenticate_api_user
+    token = request.headers["Authorization"]&.split(" ")&.last
+
+    @current_api_user = User.find_by(api_token: token)
+
+    unless @current_api_user
+      render json: {
+        error: "Token inválido o ausente."
+      }, status: :unauthorized
+    end
+  end
+
   def require_admin
     user = User.find_by(id: session[:user_id])
 
