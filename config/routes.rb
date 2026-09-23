@@ -49,6 +49,8 @@ Rails.application.routes.draw do
       post "login", to: "auth#login"
 
       resources :products, only: [:index, :show]
+      resources :orders, only: [:index, :show, :create]
+      resources :commissions, only: [:index, :show, :create]
 
       get "profile", to: "profile#show"
     end

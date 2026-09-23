@@ -1,7 +1,23 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
+
+  def verify_authenticity_token
+    return if api_request_with_valid_token?
+
+    super
+  end
+
   private
 
-   def authenticate_api_user
+  def api_request_with_valid_token?
+    return false unless %w[PATCH PUT POST DELETE].include?(request.method)
+    return false unless request.format.json? || request.media_type == "application/json"
+
+    token = request.headers["Authorization"]&.split(" ")&.last
+    token.present? && User.exists?(api_token: token)
+  end
+
+  def authenticate_api_user
     token = request.headers["Authorization"]&.split(" ")&.last
 
     @current_api_user = User.find_by(api_token: token)
