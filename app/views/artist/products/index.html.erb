@@ -1,5 +1,10 @@
 <h1>Mis productos</h1>
 
+<% if params[:category_id].present? %>
+  <p>Productos de la categoría seleccionada.</p>
+  <%= link_to "Ver todos los productos", artist_products_path %>
+<% end %>
+
 <p>
   <%= link_to "Mis productos", artist_products_path %>
 </p>
@@ -7,6 +12,10 @@
 <hr>
 
 <%= link_to "Nuevo producto", new_artist_product_path %>
+
+|
+
+<%= link_to "Administrar categorías", artist_categories_path %>
 
 <hr>
 
@@ -16,6 +25,10 @@
 
     <div>
       <h2><%= product.name %></h2>
+
+      <% if product.image.attached? %>
+        <%= image_tag product.image, alt: product.name, width: 240 %>
+      <% end %>
 
       <p>
         <strong>Descripción:</strong>

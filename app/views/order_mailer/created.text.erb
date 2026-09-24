@@ -1,0 +1,14 @@
+Pedido recibido
+
+Hola <%= @order.user.name %>,
+
+Recibimos correctamente tu pedido #<%= @order.id %>.
+
+Total: $<%= @order.total %>
+
+Productos:
+<% @order.order_items.each do |item| %>
+- <%= item.product.name %> x <%= item.quantity %> - $<%= item.unit_price * item.quantity %>
+<% end %>
+
+Te avisaremos cuando el estado del pedido cambie.

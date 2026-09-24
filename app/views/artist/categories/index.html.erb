@@ -1,0 +1,23 @@
+<h1>Categorías</h1>
+
+<%= link_to "Nueva categoría", new_artist_category_path %>
+
+<hr>
+
+<% if @categories.any? %>
+  <% @categories.each do |category| %>
+    <div>
+      <h2><%= category.name %></h2>
+      <p>
+        <strong>Descripción:</strong>
+        <%= category.description %>
+      </p>
+
+      <%= link_to "Ver productos", artist_products_path(category_id: category.id) %>
+
+    </div>
+    <hr>
+  <% end %>
+<% else %>
+  <p>No hay categorías cargadas.</p>
+<% end %>

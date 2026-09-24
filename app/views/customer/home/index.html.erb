@@ -1,14 +1,37 @@
 <h1>Bienvenido, <%= User.find_by(id: session[:user_id]).name %></h1>
 
+<% if notice %>
+  <p><%= notice %></p>
+<% end %>
+
+<% if alert %>
+  <p><%= alert %></p>
+<% end %>
+
 <p>Productos disponibles</p>
 
 <% if @products.any? %>
   <% @products.each do |product| %>
     <div>
       <h2><%= product.name %></h2>
+      <% if product.image.attached? %>
+        <%= image_tag product.image, alt: product.name, width: 240 %>
+      <% end %>
       <p><%= product.description %></p>
       <p>Precio: $<%= product.price %></p>
+      <p>Stock disponible: <%= product.stock %></p>
       <p>Artista: <%= product.artist&.name || "Sin artista asignado" %></p>
+
+      <% if product.stock.positive? %>
+        <%= form_with url: customer_orders_path, method: :post do |form| %>
+          <%= form.hidden_field :product_id, value: product.id %>
+          <%= form.label :quantity, "Cantidad" %>
+          <%= form.number_field :quantity, value: 1, min: 1, max: product.stock %>
+          <%= form.submit "Realizar pedido" %>
+        <% end %>
+      <% else %>
+        <p>Producto sin stock.</p>
+      <% end %>
     </div>
     <hr>
   <% end %>

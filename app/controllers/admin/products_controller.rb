@@ -56,7 +56,8 @@ class Admin::ProductsController < ApplicationController
       :price,
       :stock,
       :category_id,
-      :artist_id
+      :artist_id,
+      :image
     )
   end
 end

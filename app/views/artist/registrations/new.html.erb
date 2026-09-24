@@ -1,0 +1,40 @@
+<h1>Crear cuenta de artista</h1>
+
+<% if @user.errors.any? %>
+  <div>
+    <h2>No se pudo crear la cuenta:</h2>
+    <ul>
+      <% @user.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= form_with model: @user, url: artist_register_path do |form| %>
+  <div>
+    <%= form.label :name, "Nombre" %>
+    <%= form.text_field :name, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :email, "Email" %>
+    <%= form.email_field :email, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :password, "Contraseña" %>
+    <%= form.password_field :password, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :password_confirmation, "Confirmar contraseña" %>
+    <%= form.password_field :password_confirmation, required: true %>
+  </div>
+
+  <%= form.submit "Registrarme como artista" %>
+<% end %>
+
+<p>
+  <%= link_to "Ya tengo una cuenta de artista", artist_login_path %>
+</p>

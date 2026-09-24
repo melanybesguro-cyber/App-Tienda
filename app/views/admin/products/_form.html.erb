@@ -35,6 +35,11 @@
   </div>
 
   <div>
+    <%= form.label :image, "Imagen del producto" %>
+    <%= form.file_field :image, accept: "image/png,image/jpeg,image/webp" %>
+  </div>
+
+  <div>
     <%= form.label :category_id, "Categoría" %>
     <%= form.collection_select :category_id, Category.all, :id, :name,
         { prompt: "Seleccionar categoría" } %>

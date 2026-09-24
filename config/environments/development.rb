@@ -31,8 +31,28 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :local
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  smtp_username = ENV["SMTP_USERNAME"].presence
+  smtp_password = ENV["SMTP_PASSWORD"].presence
+  if smtp_username.blank? || smtp_password.blank?
+    missing_variables = []
+    missing_variables << "SMTP_USERNAME" if smtp_username.blank?
+    missing_variables << "SMTP_PASSWORD" if smtp_password.blank?
+    raise ArgumentError, "Faltan variables SMTP: #{missing_variables.join(', ')}. Configúralas antes de iniciar Rails."
+  end
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.smtp_settings = {
+    address: ENV.fetch("SMTP_ADDRESS", "smtp.gmail.com"),
+    port: ENV.fetch("SMTP_PORT", "587").to_i,
+    domain: ENV.fetch("SMTP_DOMAIN", "gmail.com"),
+    user_name: smtp_username,
+    password: smtp_password,
+    authentication: :plain,
+    enable_starttls_auto: true,
+    openssl_verify_mode: ENV["SMTP_SKIP_SSL_VERIFY"] == "1" ? OpenSSL::SSL::VERIFY_NONE : OpenSSL::SSL::VERIFY_PEER,
+    ca_file: ENV["SMTP_CA_FILE"].presence
+  }
 
   # Make template changes take effect immediately.
   config.action_mailer.perform_caching = false

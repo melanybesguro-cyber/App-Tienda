@@ -10,7 +10,8 @@ class Api::V1::ProductsController < ApplicationController
         price: product.price,
         stock: product.stock,
         category: product.category&.name,
-        artist: product.artist&.name
+        artist: product.artist&.name,
+        image_url: product_image_url(product)
       }
     }
   end
@@ -25,7 +26,14 @@ class Api::V1::ProductsController < ApplicationController
       price: product.price,
       stock: product.stock,
       category: product.category&.name,
-      artist: product.artist&.name
+      artist: product.artist&.name,
+      image_url: product_image_url(product)
     }
+  end
+
+  private
+
+  def product_image_url(product)
+    url_for(product.image) if product.image.attached?
   end
 end

@@ -3,8 +3,11 @@ Rails.application.routes.draw do
 
   namespace :customer do
     get "/", to: "home#index", as: :root
+    resources :orders, only: [:create]
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
+    get "register", to: "registrations#new"
+    post "register", to: "registrations#create"
     delete "logout", to: "sessions#destroy"
   end
 
@@ -14,6 +17,8 @@ Rails.application.routes.draw do
     get "products/show"
     get "products/new"
     get "products/edit"
+    get "register", to: "registrations#new"
+    post "register", to: "registrations#create"
   end
   namespace :admin do
     get "commissions/index"
@@ -32,11 +37,14 @@ Rails.application.routes.draw do
 
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
+    get "register", to: "registrations#new"
+    post "register", to: "registrations#create"
     delete "logout", to: "sessions#destroy"
   end
 
   namespace :artist do
     resources :products
+    resources :categories, only: [:index, :new, :create]
 
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"

@@ -68,8 +68,18 @@ class Api::V1::OrdersController < ApplicationController
     end
 
     if order.persisted?
+      email_sent = true
+
+      begin
+        OrderMailer.created(order).deliver_now
+      rescue Net::SMTPError, OpenSSL::SSL::SSLError => error
+        email_sent = false
+        Rails.logger.error("No se pudo enviar la confirmación del pedido #{order.id}: #{error.message}")
+      end
+
       render json: {
-        message: "Pedido creado correctamente.",
+        message: email_sent ? "Pedido creado correctamente." : "Pedido creado, pero no se pudo enviar el correo de confirmación.",
+        email_sent: email_sent,
         order: order_json(order)
       }, status: :created
     else

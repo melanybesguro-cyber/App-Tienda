@@ -4,6 +4,7 @@ class Artist::ProductsController < ApplicationController
 
   def index
     @products = current_user.products
+    @products = @products.where(category_id: params[:category_id]) if params[:category_id].present?
   end
 
   def show
@@ -59,7 +60,8 @@ class Artist::ProductsController < ApplicationController
       :description,
       :price,
       :stock,
-      :category_id
+      :category_id,
+      :image
     )
   end
 end

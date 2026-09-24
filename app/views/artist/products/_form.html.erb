@@ -1,4 +1,4 @@
-<%= form_with model: [:artist, @product] do |form| %>
+<%= form_with model: [:artist, @product], html: { multipart: true } do |form| %>
 
   <% if @product.errors.any? %>
     <div>
@@ -36,6 +36,13 @@
   <div>
     <%= form.label :stock, "Stock" %>
     <%= form.number_field :stock %>
+  </div>
+
+  <br>
+
+  <div>
+    <%= form.label :image, "Imagen del producto" %>
+    <%= form.file_field :image, accept: "image/png,image/jpeg,image/webp" %>
   </div>
 
   <br>
