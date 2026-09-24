@@ -5,9 +5,13 @@ one:
   description: MyText
   price: 9.99
   stock: 1
+  category: one
+  artist: one
 
 two:
   name: MyString
   description: MyText
   price: 9.99
   stock: 1
+  category: two
+  artist: two

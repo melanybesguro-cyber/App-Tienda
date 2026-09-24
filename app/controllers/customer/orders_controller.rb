@@ -11,11 +11,12 @@ class Customer::OrdersController < ApplicationController
     end
 
     order = current_user.orders.build(status: "pending", total: 0)
+    stock_error = nil
 
     ActiveRecord::Base.transaction do
       if product.stock < quantity
-        raise ActiveRecord::Rollback,
-              "No hay stock suficiente. Disponible: #{product.stock}."
+        stock_error = "No hay stock suficiente. Disponible: #{product.stock}."
+        raise ActiveRecord::Rollback
       end
 
       order.order_items.build(
@@ -28,7 +29,9 @@ class Customer::OrdersController < ApplicationController
       product.update!(stock: product.stock - quantity)
     end
 
-    if order.persisted?
+    if stock_error
+      redirect_to customer_root_path, alert: stock_error
+    elsif order.persisted?
       begin
         OrderMailer.created(order).deliver_now
         redirect_to customer_root_path, notice: "Pedido creado correctamente."
