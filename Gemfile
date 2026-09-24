@@ -38,7 +38,7 @@ gem "kamal", require: false
 gem "thruster", require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 2.1"
 
 group :development, :test do
   # Ruby 4.0 no longer ships fiddle as a default gem; reline needs it on Windows.
