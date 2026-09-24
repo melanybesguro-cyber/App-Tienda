@@ -41,6 +41,9 @@ gem "thruster", require: false
 gem "image_processing", "~> 1.2"
 
 group :development, :test do
+  # Ruby 4.0 no longer ships fiddle as a default gem; reline needs it on Windows.
+  gem "fiddle"
+
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
