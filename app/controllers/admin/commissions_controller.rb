@@ -1,6 +1,6 @@
 class Admin::CommissionsController < ApplicationController
   before_action :require_admin
-  before_action :set_commission, only: [:show, :edit, :update]
+  before_action :set_commission, only: [ :show, :edit, :update ]
 
   def index
     @commissions = Commission.includes(:user, :order).order(created_at: :desc)

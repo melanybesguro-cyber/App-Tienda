@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   namespace :customer do
     get "/", to: "home#index", as: :root
-    resources :orders, only: [:create]
+    resources :orders, only: [ :create ]
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
     get "register", to: "registrations#new"
@@ -31,9 +31,9 @@ Rails.application.routes.draw do
     get "orders/edit"
     resources :products
     resources :categories
-    resources :orders, only: [:index, :show, :edit, :update]
-    resources :commissions, only: [:index, :show, :edit, :update]
-    resources :users, only: [:index, :show]
+    resources :orders, only: [ :index, :show, :edit, :update ]
+    resources :commissions, only: [ :index, :show, :edit, :update ]
+    resources :users, only: [ :index, :show ]
 
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
@@ -44,7 +44,7 @@ Rails.application.routes.draw do
 
   namespace :artist do
     resources :products
-    resources :categories, only: [:index, :new, :create]
+    resources :categories, only: [ :index, :new, :create ]
 
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
@@ -56,9 +56,9 @@ Rails.application.routes.draw do
       post "register", to: "auth#register"
       post "login", to: "auth#login"
 
-      resources :products, only: [:index, :show]
-      resources :orders, only: [:index, :show, :create]
-      resources :commissions, only: [:index, :show, :create]
+      resources :products, only: [ :index, :show ]
+      resources :orders, only: [ :index, :show, :create ]
+      resources :commissions, only: [ :index, :show, :create ]
 
       get "profile", to: "profile#show"
     end

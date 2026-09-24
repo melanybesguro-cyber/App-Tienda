@@ -1,6 +1,6 @@
 class Api::V1::OrdersController < ApplicationController
   before_action :authenticate_api_user
-  before_action :set_order, only: [:show]
+  before_action :set_order, only: [ :show ]
 
   def index
     orders = @current_api_user.orders

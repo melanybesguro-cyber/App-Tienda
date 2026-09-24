@@ -1,6 +1,6 @@
 class Admin::ProductsController < ApplicationController
   before_action :require_admin
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @products = Product.includes(:artist, :category).order(created_at: :desc)

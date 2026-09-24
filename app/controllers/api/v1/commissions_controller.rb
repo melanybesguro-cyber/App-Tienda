@@ -1,6 +1,6 @@
 class Api::V1::CommissionsController < ApplicationController
   before_action :authenticate_api_user
-  before_action :set_commission, only: [:show]
+  before_action :set_commission, only: [ :show ]
 
   def index
     commissions = @current_api_user.commissions.order(created_at: :desc)

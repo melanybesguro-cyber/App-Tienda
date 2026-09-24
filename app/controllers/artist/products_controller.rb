@@ -1,6 +1,6 @@
 class Artist::ProductsController < ApplicationController
   before_action :require_artist
-  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [ :show, :edit, :update, :destroy ]
 
   def index
     @products = current_user.products
