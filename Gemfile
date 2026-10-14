@@ -67,3 +67,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "rack-cors", require: "rack/cors"
+
+gem 'dotenv-rails', groups: [:development, :test]
