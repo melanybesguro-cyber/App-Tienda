@@ -1,6 +1,6 @@
 class Commission < ApplicationRecord
   belongs_to :user
-  belongs_to :order
+  belongs_to :order, optional: true
 
   validates :description, presence: true
   validates :status, presence: true
