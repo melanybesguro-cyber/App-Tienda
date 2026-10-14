@@ -44,7 +44,6 @@ Rails.application.routes.draw do
 
   namespace :artist do
     resources :products
-    resources :categories, only: [ :index, :new, :create ]
 
     get "login", to: "sessions#new"
     post "login", to: "sessions#create"
