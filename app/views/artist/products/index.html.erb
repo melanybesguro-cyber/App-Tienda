@@ -1,79 +1,114 @@
-<h1>Mis productos</h1>
-
-<% if params[:category_id].present? %>
-  <p>Productos de la categoría seleccionada.</p>
-  <%= link_to "Ver todos los productos", artist_products_path %>
-<% end %>
-
-<p>
-  <%= link_to "Mis productos", artist_products_path %>
-</p>
-
-<hr>
-
-<%= link_to "Nuevo producto", new_artist_product_path %>
-
-|
-
-<%= link_to "Administrar categorías", artist_categories_path %>
-
-<hr>
-
-<% if @products.any? %>
-
-  <% @products.each do |product| %>
-
+<div class="artelier-page">
+  <div class="artelier-header">
     <div>
-      <h2><%= product.name %></h2>
-
-      <% if product.image.attached? %>
-        <%= image_tag product.image, alt: product.name, width: 240 %>
-      <% end %>
-
-      <p>
-        <strong>Descripción:</strong>
-        <%= product.description %>
+      <p class="artelier-eyebrow">MI ESPACIO DE ARTE</p>
+      <h1>Mis productos</h1>
+      <p class="artelier-subtitle">
+        Administrá tus obras y mantené actualizado tu catálogo.
       </p>
-
-      <p>
-        <strong>Precio:</strong>
-        $<%= product.price %>
-      </p>
-
-      <p>
-        <strong>Stock:</strong>
-        <%= product.stock %>
-      </p>
-
-      <p>
-        <strong>Categoría:</strong>
-        <%= product.category.name %>
-      </p>
-
-      <%= link_to "Ver",
-          artist_product_path(product) %>
-
-      |
-
-      <%= link_to "Editar",
-          edit_artist_product_path(product) %>
-
-      |
-
-      <%= link_to "Eliminar",
-          artist_product_path(product),
-          data: {
-            turbo_method: :delete,
-            turbo_confirm: "¿Seguro que querés eliminar este producto?"
-          } %>
     </div>
 
-    <hr>
+    <%= link_to "＋ Nuevo producto",
+        new_artist_product_path,
+        class: "artelier-button artelier-button-primary" %>
+  </div>
 
+  <% if params[:category_id].present? %>
+    <div class="artelier-filter">
+      <span>Estás viendo productos de la categoría seleccionada.</span>
+      <%= link_to "Ver todos los productos", artist_products_path,
+          class: "artelier-link" %>
+    </div>
   <% end %>
 
-<% else %>
+  <div class="artelier-toolbar">
+    <div>
+      <h2>Mi catálogo</h2>
+      <p>
+        <%= @products.size %>
+        <%= @products.size == 1 ? "producto publicado" : "productos publicados" %>
+      </p>
+    </div>
+    <span class="artelier-counter">
+      <%= @products.size %> en total
+    </span>
+  </div>
 
-  <p>Todavía no tenés productos publicados.</p>
+  <% if @products.any? %>
+    <div class="artelier-product-grid">
+      <% @products.each do |product| %>
+        <article class="artelier-product-card">
+          <div class="artelier-product-image">
+            <% if product.image.attached? %>
+              <%= image_tag product.image,
+                  alt: product.name,
+                  class: "artelier-image" %>
+            <% else %>
+              <div class="artelier-no-image">
+                <span>✧</span>
+                <p>Obra de arte</p>
+              </div>
+            <% end %>
+          </div>
 
-<% end %>
+          <div class="artelier-product-content">
+            <span class="artelier-category">
+              <%= product.category&.name || "Sin categoría" %>
+            </span>
+
+            <h3><%= product.name %></h3>
+
+            <p class="artelier-description">
+              <%= product.description %>
+            </p>
+
+            <div class="artelier-product-details">
+              <div>
+                <span class="artelier-detail-label">Precio</span>
+                <strong class="artelier-price">
+                  <%= number_to_currency(product.price,
+                      unit: "$",
+                      separator: ",",
+                      delimiter: ".",
+                      precision: 2) %>
+                </strong>
+              </div>
+
+              <div class="artelier-stock">
+                <span class="artelier-detail-label">Stock</span>
+                <strong><%= product.stock %></strong>
+              </div>
+            </div>
+
+            <div class="artelier-product-actions">
+              <%= link_to "Ver",
+                  artist_product_path(product),
+                  class: "artelier-button artelier-button-outline" %>
+
+              <%= link_to "Editar",
+                  edit_artist_product_path(product),
+                  class: "artelier-button artelier-button-secondary" %>
+
+              <%= link_to "Eliminar",
+                  artist_product_path(product),
+                  class: "artelier-button artelier-button-danger",
+                  data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "¿Seguro que querés eliminar este producto?"
+                  } %>
+            </div>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="artelier-empty">
+      <div class="artelier-empty-icon">✧</div>
+      <h2>Tu catálogo está esperando tus obras</h2>
+      <p>Todavía no tenés productos publicados. ¡Agregá tu primera creación!</p>
+      <%= link_to "Crear mi primer producto",
+          new_artist_product_path,
+          class: "artelier-button artelier-button-primary" %>
+    </div>
+  <% end %>
+</div>

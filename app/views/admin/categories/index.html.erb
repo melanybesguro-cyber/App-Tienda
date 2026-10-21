@@ -1,39 +1,51 @@
-<h1>Categorías</h1>
-
-<%= link_to "Nueva categoría", new_admin_category_path %>
-
-<hr>
-
-<% if @categories.any? %>
-
-  <% @categories.each do |category| %>
-
+<div class="artelier-page">
+  <div class="artelier-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
     <div>
-      <h2><%= category.name %></h2>
-
-      <p>
-        <strong>Descripción:</strong>
-        <%= category.description %>
+      <p class="artelier-eyebrow">ADMINISTRACIÓN</p>
+      <h1>Categorías</h1>
+      <p class="artelier-subtitle">
+        Gestioná las categorías de clasificación para las obras.
       </p>
-
-      <%= link_to "Ver", admin_category_path(category) %>
-      |
-      <%= link_to "Editar", edit_admin_category_path(category) %>
-      |
-      <%= link_to "Eliminar",
-          admin_category_path(category),
-          data: {
-            turbo_method: :delete,
-            turbo_confirm: "¿Seguro que querés eliminar esta categoría?"
-          } %>
     </div>
 
-    <hr>
+    <%= link_to "＋ Nueva categoría", new_admin_category_path, class: "artelier-button artelier-button-primary" %>
+  </div>
 
+  <div class="artelier-toolbar">
+    <div>
+      <h2>Listado de categorías</h2>
+    </div>
+    <span class="artelier-counter">
+      <%= @categories.size %> <%= @categories.size == 1 ? "categoría cargada" : "categorías cargadas" %>
+    </span>
+  </div>
+
+  <% if @categories.any? %>
+    <div class="artelier-product-grid">
+      <% @categories.each do |category| %>
+        <article class="artelier-product-card" style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <div class="artelier-product-content" style="padding: 0;">
+            <h3 style="margin-bottom: 0.5rem;"><%= category.name %></h3>
+
+            <p class="artelier-description" style="margin-bottom: 1.5rem; color: #666;">
+              <strong>Descripción:</strong> <%= category.description %>
+            </p>
+
+            <div class="artelier-product-actions" style="border-top: 1px solid #eee; padding-top: 1rem; display: flex; gap: 0.5rem;">
+              <%= link_to "Ver", admin_category_path(category), class: "artelier-button artelier-button-outline", style: "flex: 1; text-align: center; padding: 0.4rem;" %>
+              <%= link_to "Editar", edit_admin_category_path(category), class: "artelier-button artelier-button-secondary", style: "flex: 1; text-align: center; padding: 0.4rem;" %>
+              <%= link_to "Eliminar", admin_category_path(category), class: "artelier-button artelier-button-danger", style: "flex: 1; text-align: center; padding: 0.4rem;", data: { turbo_method: :delete, turbo_confirm: "¿Seguro que querés eliminar esta categoría?" } %>
+            </div>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="artelier-empty">
+      <div class="artelier-empty-icon">✧</div>
+      <h2>No hay categorías cargadas</h2>
+      <p>Creá la primera categoría para organizar los productos del catálogo.</p>
+      <%= link_to "Crear nueva categoría", new_admin_category_path, class: "artelier-button artelier-button-primary" %>
+    </div>
   <% end %>
-
-<% else %>
-
-  <p>No hay categorías cargadas.</p>
-
-<% end %>
+</div>

@@ -1,42 +1,100 @@
-<h1>Bienvenido, <%= User.find_by(id: session[:user_id]).name %></h1>
+<div class="artelier-page">
+  <% if notice %>
+    <div style="background-color: #d4edda; color: #155724; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
+      <%= notice %>
+    </div>
+  <% end %>
 
-<% if notice %>
-  <p><%= notice %></p>
-<% end %>
+  <% if alert %>
+    <div style="background-color: #f8d7da; color: #721c24; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem;">
+      <%= alert %>
+    </div>
+  <% end %>
 
-<% if alert %>
-  <p><%= alert %></p>
-<% end %>
-
-<p>Productos disponibles</p>
-
-<% if @products.any? %>
-  <% @products.each do |product| %>
+  <div class="artelier-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
     <div>
-      <h2><%= product.name %></h2>
-      <% if product.image.attached? %>
-        <%= image_tag product.image, alt: product.name, width: 240 %>
-      <% end %>
-      <p><%= product.description %></p>
-      <p>Precio: $<%= product.price %></p>
-      <p>Stock disponible: <%= product.stock %></p>
-      <p>Artista: <%= product.artist&.name || "Sin artista asignado" %></p>
+      <p class="artelier-eyebrow">TIENDA</p>
+      <h1>Bienvenido, <%= User.find_by(id: session[:user_id])&.name %></h1>
+      <p class="artelier-subtitle">
+        Descubrí piezas únicas creadas por nuestros artistas.
+      </p>
+    </div>
+    
+    <%= button_to "Cerrar sesión", customer_logout_path, method: :delete, class: "artelier-button artelier-button-secondary" %>
+  </div>
 
-      <% if product.stock.positive? %>
-        <%= form_with url: customer_orders_path, method: :post do |form| %>
-          <%= form.hidden_field :product_id, value: product.id %>
-          <%= form.label :quantity, "Cantidad" %>
-          <%= form.number_field :quantity, value: 1, min: 1, max: product.stock %>
-          <%= form.submit "Realizar pedido" %>
-        <% end %>
-      <% else %>
-        <p>Producto sin stock.</p>
+  <div class="artelier-toolbar">
+    <div>
+      <h2>Obras disponibles</h2>
+    </div>
+    <span class="artelier-counter">
+      <%= @products.size %> <%= @products.size == 1 ? "producto" : "productos" %> en total
+    </span>
+  </div>
+
+  <% if @products.any? %>
+    <div class="artelier-product-grid">
+      <% @products.each do |product| %>
+        <article class="artelier-product-card">
+          <div class="artelier-product-image">
+            <% if product.image.attached? %>
+              <%= image_tag product.image, alt: product.name, class: "artelier-image" %>
+            <% else %>
+              <div class="artelier-no-image">
+                <span>✧</span>
+                <p>Obra de arte</p>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="artelier-product-content">
+            <span class="artelier-category">
+              <%= product.category&.name || "Sin categoría" %>
+            </span>
+
+            <h3><%= product.name %></h3>
+
+            <p class="artelier-description" style="margin-bottom: 0.5rem;">
+              <%= product.description %>
+            </p>
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 1rem;">
+              Artista: <%= product.artist&.name || "Sin artista asignado" %>
+            </p>
+
+            <div class="artelier-product-details">
+              <div>
+                <span class="artelier-detail-label">Precio</span>
+                <strong class="artelier-price">
+                  $<%= product.price %>
+                </strong>
+              </div>
+
+              <div class="artelier-stock">
+                <span class="artelier-detail-label">Stock</span>
+                <strong><%= product.stock %></strong>
+              </div>
+            </div>
+
+            <div class="artelier-product-actions" style="margin-top: 1rem;">
+              <% if product.stock.positive? %>
+                <%= form_with url: customer_orders_path, method: :post, local: true, style: "display: flex; gap: 0.5rem; width: 100%;" do |form| %>
+                  <%= form.hidden_field :product_id, value: product.id %>
+                  <%= form.number_field :quantity, value: 1, min: 1, max: product.stock, style: "width: 70px; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;" %>
+                  <%= form.submit "Realizar pedido", class: "artelier-button artelier-button-primary", style: "flex-grow: 1; padding: 0.5rem;" %>
+                <% end %>
+              <% else %>
+                <button disabled class="artelier-button" style="background-color: #e0e0e0; color: #888; width: 100%; cursor: not-allowed; border: none;">Producto sin stock</button>
+              <% end %>
+            </div>
+          </div>
+        </article>
       <% end %>
     </div>
-    <hr>
+  <% else %>
+    <div class="artelier-empty">
+      <div class="artelier-empty-icon">✧</div>
+      <h2>Todavía no hay productos publicados</h2>
+      <p>Pronto nuestros artistas publicarán nuevas creaciones en el catálogo.</p>
+    </div>
   <% end %>
-<% else %>
-  <p>Todavía no hay productos publicados.</p>
-<% end %>
-
-<%= button_to "Cerrar sesión", customer_logout_path, method: :delete %>
+</div>

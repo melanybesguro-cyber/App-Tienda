@@ -1,10 +1,718 @@
-/*
- * This is a manifest file that'll be compiled into application.css.
- *
- * With Propshaft, assets are served efficiently without preprocessing steps. You can still include
- * application-wide styles in this file, but keep in mind that CSS precedence will follow the standard
- * cascading order, meaning styles declared later in the document or manifest will override earlier ones,
- * depending on specificity.
- *
- * Consider organizing styles into separate files for maintainability.
- */
+
+/* ===== ARTELIER: CATÁLOGO DEL ARTISTA ===== */
+
+.artelier-page {
+  --artelier-navy: #17365d;
+  --artelier-blue: #2864a5;
+  --artelier-light-blue: #eaf2fb;
+  --artelier-border: #d9e5f2;
+  --artelier-text: #24364b;
+  --artelier-muted: #718096;
+
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 32px;
+  color: var(--artelier-text);
+}
+
+.artelier-page * {
+  box-sizing: border-box;
+}
+
+.artelier-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 32px;
+  padding: 28px;
+  background: linear-gradient(135deg, #17365d, #2864a5);
+  color: white;
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(23, 54, 93, 0.15);
+}
+
+.artelier-eyebrow {
+  margin: 0 0 8px;
+  color: #c9def7;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.artelier-header h1 {
+  margin: 0 0 8px;
+  color: white;
+  font-size: clamp(26px, 4vw, 36px);
+}
+
+.artelier-subtitle {
+  margin: 0;
+  color: #e0ebf8;
+  line-height: 1.6;
+}
+
+.artelier-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.artelier-button:hover {
+  transform: translateY(-1px);
+}
+
+.artelier-button-primary {
+  flex-shrink: 0;
+  background: white;
+  color: var(--artelier-navy);
+}
+
+.artelier-button-primary:hover {
+  background: #eaf2fb;
+}
+
+.artelier-header .artelier-button-primary {
+  background: white;
+  color: var(--artelier-navy);
+}
+
+.artelier-button-secondary {
+  background: #eaf2fb;
+  color: #204f83;
+}
+
+.artelier-button-secondary:hover {
+  background: #d8e8fa;
+}
+
+.artelier-button-outline {
+  border-color: var(--artelier-border);
+  background: white;
+  color: var(--artelier-navy);
+}
+
+.artelier-button-outline:hover {
+  background: #f2f7fd;
+}
+
+.artelier-button-danger {
+  border-color: #f1d4d4;
+  background: #fff5f5;
+  color: #a83232;
+}
+
+.artelier-button-danger:hover {
+  background: #ffe6e6;
+}
+
+.artelier-filter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  border: 1px solid var(--artelier-border);
+  border-radius: 12px;
+  background: #f4f8fd;
+}
+
+.artelier-link {
+  color: var(--artelier-blue);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.artelier-link:hover {
+  text-decoration: underline;
+}
+
+.artelier-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.artelier-toolbar h2 {
+  margin: 0 0 5px;
+  color: var(--artelier-navy);
+  font-size: 23px;
+}
+
+.artelier-toolbar p {
+  margin: 0;
+  color: var(--artelier-muted);
+  font-size: 14px;
+}
+
+.artelier-counter {
+  padding: 8px 12px;
+  border-radius: 20px;
+  background: var(--artelier-light-blue);
+  color: var(--artelier-navy);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.artelier-product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
+}
+
+.artelier-product-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--artelier-border);
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 4px 14px rgba(23, 54, 93, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.artelier-product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(23, 54, 93, 0.12);
+}
+
+.artelier-product-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 220px;
+  overflow: hidden;
+  background: #eaf2fb;
+}
+
+.artelier-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.artelier-no-image {
+  color: #6487b0;
+  text-align: center;
+}
+
+.artelier-no-image span {
+  font-size: 52px;
+}
+
+.artelier-no-image p {
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+
+.artelier-product-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.artelier-category {
+  align-self: flex-start;
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: var(--artelier-light-blue);
+  color: var(--artelier-blue);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.artelier-product-content h3 {
+  margin: 13px 0 8px;
+  color: var(--artelier-navy);
+  font-size: 20px;
+  overflow-wrap: anywhere;
+}
+
+.artelier-description {
+  display: -webkit-box;
+  min-height: 44px;
+  margin: 0 0 18px;
+  overflow: hidden;
+  color: var(--artelier-muted);
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.artelier-product-details {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: auto;
+  padding: 16px 0;
+  border-top: 1px solid #edf1f7;
+}
+
+.artelier-product-details > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.artelier-detail-label {
+  color: var(--artelier-muted);
+  font-size: 12px;
+}
+
+.artelier-price {
+  color: var(--artelier-blue);
+  font-size: 19px;
+}
+
+.artelier-stock {
+  text-align: right;
+}
+
+.artelier-stock strong {
+  color: var(--artelier-navy);
+}
+
+.artelier-product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid #edf1f7;
+}
+
+.artelier-product-actions .artelier-button {
+  flex: 1 1 auto;
+}
+
+.artelier-empty {
+  padding: 55px 24px;
+  border: 1px dashed #b9cde4;
+  border-radius: 16px;
+  background: #f7faff;
+  text-align: center;
+}
+
+.artelier-empty-icon {
+  color: var(--artelier-blue);
+  font-size: 48px;
+}
+
+.artelier-empty h2 {
+  color: var(--artelier-navy);
+}
+
+.artelier-empty p {
+  margin-bottom: 24px;
+  color: var(--artelier-muted);
+}
+
+.artelier-empty .artelier-button-primary {
+  background: var(--artelier-blue);
+  color: white;
+}
+
+@media (max-width: 1050px) {
+  .artelier-product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .artelier-page {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 620px) {
+  .artelier-page {
+    padding: 16px;
+  }
+
+  .artelier-header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 22px;
+  }
+
+  .artelier-product-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .artelier-product-image {
+    height: 240px;
+  }
+
+  .artelier-product-actions .artelier-button {
+    flex: 1 1 40%;
+  }
+}
+
+
+/* ===== ARTELIER: TIENDA DEL CLIENTE ===== */
+
+.artelier-store {
+  background: #f7faff;
+  border-radius: 18px;
+}
+
+.artelier-store-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.artelier-store-logo span:first-child {
+  font-size: 42px;
+  line-height: 1;
+}
+
+.artelier-eyebrow-blue {
+  color: #3478b8;
+}
+
+.artelier-notice,
+.artelier-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 15px 18px;
+  border-radius: 10px;
+  line-height: 1.5;
+}
+
+.artelier-notice {
+  border: 1px solid #b9dfca;
+  background: #edf9f1;
+  color: #21653b;
+}
+
+.artelier-notice span {
+  font-weight: 800;
+}
+
+.artelier-alert {
+  border: 1px solid #f0cccc;
+  background: #fff2f2;
+  color: #9d2929;
+}
+
+.artelier-store-intro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 36px;
+  padding: 30px;
+  overflow: hidden;
+  border: 1px solid #d9e7f7;
+  border-radius: 16px;
+  background: linear-gradient(120deg, #eaf2fb, #f5f9ff);
+}
+
+.artelier-store-intro h2 {
+  margin: 0 0 10px;
+  color: #17365d;
+  font-size: clamp(23px, 3vw, 31px);
+}
+
+.artelier-store-intro p:last-child {
+  max-width: 600px;
+  margin: 0;
+  color: #61748b;
+  line-height: 1.7;
+}
+
+.artelier-store-decoration {
+  flex-shrink: 0;
+  padding: 0 15px;
+  color: #b3cce9;
+  font-size: 90px;
+}
+
+.artelier-store-catalog {
+  margin-bottom: 40px;
+}
+
+.artelier-store-card .artelier-product-image {
+  position: relative;
+}
+
+.artelier-availability {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 6px 10px;
+  border: 1px solid #d0e9d8;
+  border-radius: 20px;
+  background: #f0faf3;
+  color: #25633a;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.artelier-unavailable {
+  border-color: #f1d4d4;
+  background: #fff1f1;
+  color: #a83232;
+}
+
+.artelier-store-card .artelier-description {
+  min-height: 44px;
+}
+
+.artelier-artist {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 16px;
+  color: #657890;
+  font-size: 13px;
+}
+
+.artelier-artist-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #eaf2fb;
+  color: #2864a5;
+}
+
+.artelier-store-price {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: auto;
+  padding: 16px 0;
+  border-top: 1px solid #edf1f7;
+}
+
+.artelier-store-price strong {
+  color: #17365d;
+  font-size: 26px;
+}
+
+.artelier-purchase-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.artelier-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.artelier-quantity label {
+  color: #4f6279;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.artelier-quantity input {
+  width: 90px;
+  min-height: 40px;
+  padding: 8px 10px;
+  border: 1px solid #cad9eb;
+  border-radius: 8px;
+  background: white;
+  color: #17365d;
+}
+
+.artelier-quantity input:focus {
+  outline: 2px solid #8bb9ed;
+  outline-offset: 2px;
+}
+
+.artelier-buy-button {
+  width: 100%;
+  min-height: 44px;
+  background: #2864a5;
+  color: white;
+}
+
+.artelier-buy-button:hover {
+  background: #17365d;
+}
+
+.artelier-disabled-button {
+  width: 100%;
+  background: #edf0f5;
+  color: #778397;
+  cursor: not-allowed;
+}
+
+.artelier-stock-note {
+  margin: 10px 0 0;
+  color: #8190a3;
+  font-size: 12px;
+  text-align: center;
+}
+
+.artelier-store-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 28px 20px;
+  border-top: 1px solid #d9e5f2;
+  color: #718096;
+  text-align: center;
+}
+
+.artelier-footer-symbol {
+  color: #3478b8;
+  font-size: 30px;
+}
+
+.artelier-store-footer p {
+  margin: 0;
+}
+
+.artelier-logout-button {
+  margin-top: 12px;
+  border-color: #d9e5f2;
+  background: white;
+  color: #285783;
+}
+
+.artelier-logout-button:hover {
+  background: #eaf2fb;
+}
+
+@media (max-width: 620px) {
+  .artelier-store-logo {
+    align-items: flex-start;
+    flex-direction: row;
+    font-size: 17px;
+  }
+
+  .artelier-store-logo span:first-child {
+    font-size: 24px;
+  }
+
+  .artelier-store-intro {
+    padding: 22px;
+  }
+
+  .artelier-store-decoration {
+    display: none;
+  }
+
+  .artelier-store-price strong {
+    font-size: 23px;
+  }
+}
+
+
+/* ===== NAVEGACIÓN GENERAL DE ARTELIER ===== */
+
+.artelier-navbar {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 15px 32px;
+  background: #17365d;
+  color: white;
+  box-shadow: 0 3px 12px rgba(23, 54, 93, 0.16);
+}
+
+.artelier-navbar-brand {
+  color: white;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+}
+
+.artelier-navbar-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.artelier-navbar-links > a {
+  padding: 9px 12px;
+  border-radius: 8px;
+  color: #e3edf9;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.artelier-navbar-links > a:hover {
+  background: #285783;
+  color: white;
+}
+
+.artelier-navbar-logout {
+  padding: 9px 13px;
+  border: 1px solid #8fb5df;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #17365d;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.artelier-navbar-logout:hover {
+  background: #eaf2fb;
+}
+
+.artelier-main-content {
+  min-height: calc(100vh - 70px);
+}
+
+@media (max-width: 760px) {
+  .artelier-navbar {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 16px 20px;
+  }
+
+  .artelier-navbar-links {
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .artelier-navbar-links > a {
+    padding: 8px;
+  }
+}

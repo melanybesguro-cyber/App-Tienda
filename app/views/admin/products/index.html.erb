@@ -1,64 +1,86 @@
-<h1>Productos</h1>
-
-<p>
-  <%= link_to "Productos", admin_products_path %> |
-  <%= link_to "Categorías", admin_categories_path %> |
-  <%= link_to "Pedidos", admin_orders_path %>
-  <%= link_to "Usuarios", admin_users_path %>
-  <%= link_to "Comisiones", admin_commissions_path %>
-</p>
-
-<hr>
-
-<%= link_to "Nuevo producto", new_admin_product_path %>
-
-<hr>
-
-<% if @products.any? %>
-
-  <% @products.each do |product| %>
-
+<div class="artelier-page">
+  <div class="artelier-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
     <div>
-      <h2><%= product.name %></h2>
-
-      <p>
-        <strong>Descripción:</strong>
-        <%= product.description %>
+      <p class="artelier-eyebrow">ADMINISTRACIÓN</p>
+      <h1>Productos</h1>
+      <p class="artelier-subtitle">
+        Gestión del catálogo general de obras de la tienda.
       </p>
-
-      <p>
-        <strong>Precio:</strong>
-        $<%= product.price %>
-      </p>
-
-      <p>
-        <strong>Stock:</strong>
-        <%= product.stock %>
-      </p>
-
-      <p>
-        <strong>Artista:</strong>
-        <%= product.artist&.name || "Sin artista asignado" %>
-      </p>
-
-      <%= link_to "Ver", admin_product_path(product) %>
-      |
-      <%= link_to "Editar", edit_admin_product_path(product) %>
-      |
-      <%= link_to "Eliminar",
-          admin_product_path(product),
-          data: {
-            turbo_method: :delete,
-            turbo_confirm: "¿Seguro que querés eliminar este producto?"
-          } %>
     </div>
 
-    <hr>
+    <%= link_to "＋ Nuevo producto", new_admin_product_path, class: "artelier-button artelier-button-primary" %>
+  </div>
 
+  <div class="artelier-toolbar">
+    <div>
+      <h2>Listado de productos</h2>
+    </div>
+    <span class="artelier-counter">
+      <%= @products&.size || 0 %> <%= @products&.size == 1 ? "producto cargado" : "productos cargados" %>
+    </span>
+  </div>
+
+  <% if @products.present? && @products.any? %>
+    <div class="artelier-product-grid">
+      <% @products.each do |product| %>
+        <article class="artelier-product-card">
+          
+          <!-- Imagen del producto -->
+          <div class="artelier-product-image">
+            <% if product.image.attached? %>
+              <%= image_tag product.image, alt: product.name, class: "artelier-image" %>
+            <% else %>
+              <div class="artelier-no-image">
+                <span>✧</span>
+                <p>Sin imagen</p>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="artelier-product-content">
+            <span class="artelier-category">
+              <%= product.category&.name || "Sin categoría" %>
+            </span>
+
+            <h3><%= product.name %></h3>
+
+            <p class="artelier-description" style="margin-bottom: 0.5rem;">
+              <%= product.description %>
+            </p>
+
+            <p style="font-size: 0.85rem; color: #666; margin-bottom: 1rem; border-bottom: 1px dashed #ddd; padding-bottom: 0.5rem;">
+              <strong>Artista:</strong> <%= product.artist&.name || "Sin artista asignado" %>
+            </p>
+
+            <div class="artelier-product-details">
+              <div>
+                <span class="artelier-detail-label">Precio</span>
+                <strong class="artelier-price">
+                  <%= number_to_currency(product.price, unit: "$", separator: ",", delimiter: ".", precision: 2) %>
+                </strong>
+              </div>
+
+              <div class="artelier-stock">
+                <span class="artelier-detail-label">Stock</span>
+                <strong><%= product.stock %></strong>
+              </div>
+            </div>
+
+            <div class="artelier-product-actions" style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+              <%= link_to "Ver", admin_product_path(product), class: "artelier-button artelier-button-outline", style: "flex: 1; text-align: center; padding: 0.4rem;" %>
+              <%= link_to "Editar", edit_admin_product_path(product), class: "artelier-button artelier-button-secondary", style: "flex: 1; text-align: center; padding: 0.4rem;" %>
+              <%= link_to "Eliminar", admin_product_path(product), class: "artelier-button artelier-button-danger", style: "flex: 1; text-align: center; padding: 0.4rem;", data: { turbo_method: :delete, turbo_confirm: "¿Seguro que querés eliminar este producto?" } %>
+            </div>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="artelier-empty">
+      <div class="artelier-empty-icon">✧</div>
+      <h2>No hay productos cargados</h2>
+      <p>Aún no se han registrado obras en la base de datos.</p>
+      <%= link_to "Crear el primer producto", new_admin_product_path, class: "artelier-button artelier-button-primary" %>
+    </div>
   <% end %>
-
-<% else %>
-
-  <p>No hay productos cargados.</p>
-
-<% end %>
+</div>

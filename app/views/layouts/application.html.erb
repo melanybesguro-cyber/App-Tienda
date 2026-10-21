@@ -1,29 +1,75 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "App Tienda" %></title>
+    <title><%= content_for(:title) || "Artelier" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="App Tienda">
+    <meta name="application-name" content="Artelier">
     <meta name="mobile-web-app-capable" content="yes">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= yield :head %>
-
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
-    <%= yield %>
+    <% current_user = User.find_by(id: session[:user_id]) if session[:user_id].present? %>
+
+    <% if current_user %>
+      <!-- BARRA PARA USUARIOS CON SESIÓN INICIADA -->
+      <nav class="artelier-navbar">
+        <%= link_to "Artelier",
+          current_user.admin? ? admin_products_path :
+          (current_user.artist? ? artist_products_path : customer_root_path),
+          class: "artelier-navbar-brand" %>
+
+        <div class="artelier-navbar-links">
+          <% if current_user.admin? %>
+            <%= link_to "Productos", admin_products_path %>
+            <%= link_to "Categorías", admin_categories_path %>
+            <%= link_to "Pedidos", admin_orders_path %>
+            <%= link_to "Usuarios", admin_users_path %>
+            <%= link_to "Comisiones", admin_commissions_path %>
+
+          <% elsif current_user.artist? %>
+            <%= link_to "Mis productos", artist_products_path %>
+            <%= link_to "Nuevo producto", new_artist_product_path %>
+
+          <% elsif current_user.customer? %>
+            <%= link_to "Catálogo", customer_root_path %>
+          <% end %>
+
+          <%= button_to "Cerrar sesión",
+            current_user.admin? ? admin_logout_path :
+            (current_user.artist? ? artist_logout_path : customer_logout_path),
+            method: :delete,
+            class: "artelier-navbar-logout" %>
+        </div>
+      </nav>
+
+    <% else %>
+      <!-- BARRA PÚBLICA PARA VISITANTES -->
+      <nav class="artelier-navbar">
+        <%= link_to "Artelier", root_path, class: "artelier-navbar-brand" %>
+
+        <div class="artelier-navbar-links">
+          <%= link_to "Ingresar como cliente", customer_login_path %>
+          <%= link_to "Crear cuenta de cliente", customer_register_path %>
+          <%= link_to "Ingresar como artista", artist_login_path %>
+          <%= link_to "Crear cuenta de artista", artist_register_path %>
+        </div>
+      </nav>
+    <% end %>
+
+    <main class="artelier-main-content">
+      <%= yield %>
+    </main>
   </body>
 </html>

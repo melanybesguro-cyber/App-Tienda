@@ -1,55 +1,69 @@
-<h1>Comisiones</h1>
-
-<p>
-  <%= link_to "Productos", admin_products_path %> |
-  <%= link_to "Categorías", admin_categories_path %> |
-  <%= link_to "Pedidos", admin_orders_path %> |
-  <%= link_to "Usuarios", admin_users_path %> |
-  <%= link_to "Comisiones", admin_commissions_path %>
-</p>
-
-<hr>
-
-<% if @commissions.any? %>
-
-  <% @commissions.each do |commission| %>
+<div class="artelier-page">
+  <div class="artelier-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
     <div>
-      <h2>Comisión #<%= commission.id %></h2>
-
-      <p>
-        <strong>Cliente:</strong>
-        <%= commission.user.name %>
+      <p class="artelier-eyebrow">ADMINISTRACIÓN</p>
+      <h1>Comisiones</h1>
+      <p class="artelier-subtitle">
+        Gestión de encargos personalizados solicitados por los clientes.
       </p>
-
-      <p>
-        <strong>Email:</strong>
-        <%= commission.user.email %>
-      </p>
-
-      <p>
-        <strong>Estado:</strong>
-        <%= commission.status %>
-      </p>
-
-      <p>
-        <strong>Fecha límite:</strong>
-        <%= commission.deadline %>
-      </p>
-
-      <%= link_to "Ver comisión",
-          admin_commission_path(commission) %>
-
-      |
-
-      <%= link_to "Editar",
-          edit_admin_commission_path(commission) %>
     </div>
+  </div>
 
-    <hr>
+  <div class="artelier-filter" style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; border-bottom: 1px solid #eee; padding-bottom: 1rem;">
+    <%= link_to "Productos", admin_products_path, class: "artelier-link" %>
+    <%= link_to "Categorías", admin_categories_path, class: "artelier-link" %>
+    <%= link_to "Pedidos", admin_orders_path, class: "artelier-link" %>
+    <%= link_to "Usuarios", admin_users_path, class: "artelier-link" %>
+    <span style="color: #333; font-weight: bold; border-bottom: 2px solid #333; padding-bottom: 0.2rem;">Comisiones</span>
+  </div>
+
+  <div class="artelier-toolbar">
+    <div>
+      <h2>Listado de comisiones</h2>
+    </div>
+    <span class="artelier-counter">
+      <%= @commissions.size %> <%= @commissions.size == 1 ? "comisión registrada" : "comisiones registradas" %>
+    </span>
+  </div>
+
+  <% if @commissions.any? %>
+    <div class="artelier-product-grid">
+      <% @commissions.each do |commission| %>
+        <article class="artelier-product-card" style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <div class="artelier-product-content" style="padding: 0;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="margin: 0;">Comisión #<%= commission.id %></h3>
+              <span style="padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.85rem; background-color: #e9ecef; color: #495057; font-weight: bold; text-transform: uppercase;">
+                <%= commission.status %>
+              </span>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; color: #555; font-size: 0.95rem;">
+              <p style="margin-bottom: 0.4rem;">
+                <strong style="color: #333;">Cliente:</strong> <%= commission.user.name %>
+              </p>
+              <p style="margin-bottom: 0.4rem;">
+                <strong style="color: #333;">Email:</strong> <%= commission.user.email %>
+              </p>
+              <p style="margin-bottom: 0;">
+                <strong style="color: #333;">Fecha límite:</strong> <%= commission.deadline %>
+              </p>
+            </div>
+
+            <div class="artelier-product-actions" style="border-top: 1px solid #eee; padding-top: 1rem; display: flex; gap: 0.5rem;">
+              <%= link_to "Ver detalles", admin_commission_path(commission), class: "artelier-button artelier-button-outline", style: "flex: 1; text-align: center; padding: 0.4rem;" %>
+              <%= link_to "Editar", edit_admin_commission_path(commission), class: "artelier-button artelier-button-secondary", style: "flex: 1; text-align: center; padding: 0.4rem;" %>
+            </div>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="artelier-empty">
+      <div class="artelier-empty-icon">✧</div>
+      <h2>No hay comisiones registradas</h2>
+      <p>Aún no se han recibido solicitudes de obras personalizadas en la plataforma.</p>
+    </div>
   <% end %>
-
-<% else %>
-
-  <p>No hay comisiones registradas.</p>
-
-<% end %>
+</div>

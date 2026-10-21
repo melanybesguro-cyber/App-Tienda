@@ -1,23 +1,34 @@
-<h1>Iniciar sesión</h1>
+<div class="artelier-page" style="max-width: 450px; margin: 4rem auto; padding: 2.5rem; background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border: 1px solid #eee;">
+  
+  <% if flash[:alert] %>
+    <div style="background-color: #f8d7da; color: #721c24; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; text-align: center; font-weight: 500;">
+      <%= flash[:alert] %>
+    </div>
+  <% end %>
 
-<%= form_with url: admin_login_path do |form| %>
-
-  <div>
-    <%= form.label :email, "Email" %>
-    <%= form.email_field :email %>
+  <div class="artelier-header" style="text-align: center; margin-bottom: 2rem;">
+    <p class="artelier-eyebrow">ADMINISTRACIÓN</p>
+    <h1 style="margin-top: 0.5rem;">Iniciar sesión</h1>
+    <p class="artelier-subtitle">
+      Ingresá tus credenciales para acceder al panel.
+    </p>
   </div>
 
-  <div>
-    <%= form.label :password, "Contraseña" %>
-    <%= form.password_field :password %>
-  </div>
+  <%= form_with url: admin_login_path, local: true, style: "display: flex; flex-direction: column; gap: 1.2rem;" do |form| %>
 
-  <div>
-    <%= form.submit "Iniciar sesión" %>
-  </div>
+    <div>
+      <%= form.label :email, "Email", style: "display: block; font-weight: 600; margin-bottom: 0.4rem; color: #333;" %>
+      <%= form.email_field :email, style: "width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;", required: true, placeholder: "tu@email.com" %>
+    </div>
 
-<% end %>
+    <div>
+      <%= form.label :password, "Contraseña", style: "display: block; font-weight: 600; margin-bottom: 0.4rem; color: #333;" %>
+      <%= form.password_field :password, style: "width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;", required: true %>
+    </div>
 
-<% if flash[:alert] %>
-  <p><%= flash[:alert] %></p>
-<% end %>
+    <div style="margin-top: 1rem;">
+      <%= form.submit "Ingresar al panel", class: "artelier-button artelier-button-primary", style: "width: 100%; padding: 0.8rem; font-size: 1rem; display: flex; justify-content: center;" %>
+    </div>
+
+  <% end %>
+</div>

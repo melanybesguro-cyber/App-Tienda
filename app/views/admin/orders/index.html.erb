@@ -1,43 +1,61 @@
-<h1>Pedidos</h1>
-
-<% if @orders.any? %>
-
-  <% @orders.each do |order| %>
-
+<div class="artelier-page">
+  <div class="artelier-header" style="display: flex; justify-content: space-between; align-items: flex-start;">
     <div>
-      <h2>Pedido #<%= order.id %></h2>
-
-      <p>
-        <strong>Cliente:</strong>
-        <%= order.user.name %>
+      <p class="artelier-eyebrow">ADMINISTRACIÓN</p>
+      <h1>Pedidos</h1>
+      <p class="artelier-subtitle">
+        Gestión de las compras realizadas por los clientes en la tienda.
       </p>
-
-      <p>
-        <strong>Email:</strong>
-        <%= order.user.email %>
-      </p>
-
-      <p>
-        <strong>Estado:</strong>
-        <%= order.status %>
-      </p>
-
-      <p>
-        <strong>Total:</strong>
-        $<%= order.total %>
-      </p>
-
-      <%= link_to "Ver pedido", admin_order_path(order) %>
-      |
-      <%= link_to "Editar estado", edit_admin_order_path(order) %>
     </div>
+  </div>
 
-    <hr>
+  <div class="artelier-toolbar">
+    <div>
+      <h2>Listado de pedidos</h2>
+    </div>
+    <span class="artelier-counter">
+      <%= @orders.size %> <%= @orders.size == 1 ? "pedido registrado" : "pedidos registrados" %>
+    </span>
+  </div>
 
+  <% if @orders.any? %>
+    <div class="artelier-product-grid">
+      <% @orders.each do |order| %>
+        <article class="artelier-product-card" style="padding: 1.5rem; display: flex; flex-direction: column; justify-content: space-between;">
+          <div class="artelier-product-content" style="padding: 0;">
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+              <h3 style="margin: 0;">Pedido #<%= order.id %></h3>
+              <span style="padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.85rem; background-color: #e9ecef; color: #495057; font-weight: bold; text-transform: uppercase;">
+                <%= order.status %>
+              </span>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; color: #555; font-size: 0.95rem;">
+              <p style="margin-bottom: 0.4rem;">
+                <strong style="color: #333;">Cliente:</strong> <%= order.user&.name || "Usuario desconocido" %>
+              </p>
+              <p style="margin-bottom: 0.4rem;">
+                <strong style="color: #333;">Email:</strong> <%= order.user&.email || "Sin email" %>
+              </p>
+              <p style="margin-bottom: 0;">
+                <strong style="color: #333;">Total:</strong> <%= number_to_currency(order.total, unit: "$", separator: ",", delimiter: ".", precision: 2) %>
+              </p>
+            </div>
+
+            <div class="artelier-product-actions" style="border-top: 1px solid #eee; padding-top: 1rem; display: flex; gap: 0.5rem;">
+              <%= link_to "Ver detalles", admin_order_path(order), class: "artelier-button artelier-button-outline", style: "flex: 1; text-align: center; padding: 0.4rem;" %>
+              <%= link_to "Editar estado", edit_admin_order_path(order), class: "artelier-button artelier-button-secondary", style: "flex: 1; text-align: center; padding: 0.4rem;" %>
+            </div>
+          </div>
+        </article>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="artelier-empty">
+      <div class="artelier-empty-icon">✧</div>
+      <h2>No hay pedidos registrados</h2>
+      <p>Aún no se han realizado compras en la plataforma.</p>
+    </div>
   <% end %>
-
-<% else %>
-
-  <p>No hay pedidos registrados.</p>
-
-<% end %>
+</div>
