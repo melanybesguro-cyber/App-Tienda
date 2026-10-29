@@ -19,7 +19,12 @@ Rails.application.routes.draw do
     get "products/edit"
     get "register", to: "registrations#new"
     post "register", to: "registrations#create"
+    resources :products
+    get "login", to: "sessions#new"
+    post "login", to: "sessions#create"
+    delete "logout", to: "sessions#destroy"
   end
+
   namespace :admin do
     get "commissions/index"
     get "commissions/show"
@@ -42,23 +47,19 @@ Rails.application.routes.draw do
     delete "logout", to: "sessions#destroy"
   end
 
-  namespace :artist do
-    resources :products
-
-    get "login", to: "sessions#new"
-    post "login", to: "sessions#create"
-    delete "logout", to: "sessions#destroy"
-  end
-
   namespace :api do
     namespace :v1 do
       post "register", to: "auth#register"
       post "login", to: "auth#login"
 
-      resources :products, only: [ :index, :show ]
-      resources :orders, only: [ :index, :show, :create ]
-      resources :commissions, only: [ :index, :show, :create ]
+      resources :products, only: %i[index show create update destroy]
+      resources :orders, only: %i[index show create]
+      resources :commissions, only: %i[index show create update]
+      resource :profile, only: [:show, :update], controller: 'profiles'
 
+# Ruta para listar artistas y ver el perfil detallado de un artista
+      get 'artists', to: 'artists#index'
+      get 'artists/:id', to: 'artists#artist_profile'
       get "profile", to: "profile#show"
     end
   end
